@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7f9dbfc527e52439c2542d12b18218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  harvestGoal: 15
+  delayBeforeEndScreen: 1
+  endSceneName: EndScene
   scoreDisplay: {fileID: 833280018}
 --- !u!4 &4755811
 Transform:
@@ -5458,7 +5461,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreDisplay
   scoreText: {fileID: 833280019}
-  prefix: 'Score : '
 --- !u!114 &833280019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5576,7 +5578,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 40, y: -40}
-  m_SizeDelta: {x: 600, y: 100}
+  m_SizeDelta: {x: 600, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1163759985
 GameObject:

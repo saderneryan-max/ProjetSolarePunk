@@ -29,6 +29,8 @@ public class Plant : MonoBehaviour
     [Header("Récolte")]                                   // NOUVEAU
     [SerializeField] private int pointsPerHarvest = 1;    // NOUVEAU
 
+    [SerializeField] private int burstPenalty = 1;        // points perdus si le légume éclate
+
     public PlantState CurrentState { get; private set; }
 
     private float stageTimer = 0f;
@@ -86,7 +88,7 @@ public class Plant : MonoBehaviour
 
         if (scoreManager != null)
         {
-            scoreManager.AddPoints(pointsPerHarvest);
+            scoreManager.RegisterHarvest(pointsPerHarvest);
         }
         else
         {
@@ -184,8 +186,14 @@ public class Plant : MonoBehaviour
 
     private void Burst()
     {
-        if (isFinished) return; // NOUVEAU : sécurité contre un double appel
+        if (isFinished) return;
         isFinished = true;
+
+        // Un légume perdu coûte des points
+        if (scoreManager != null)
+        {
+            scoreManager.RegisterBurst(burstPenalty);
+        }
 
         // Plus tard (brique 4.2) : son + particules d'éclatement ici
         Destroy(gameObject);
