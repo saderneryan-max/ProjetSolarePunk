@@ -2,19 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Fait apparaître une plantation juste sous le drone quand le joueur appuie sur "Plant".
+// Fait apparaître une plantation juste sous le drone quand le joueur appuie sur "Plant",
+// et lui transmet le ScoreManager dès sa naissance (injection de dépendances).
 public class DronePlanter : MonoBehaviour
 {
     [Header("Plantation")]
-    [SerializeField] private GameObject plantPrefab;   // le moule à copier
-    [SerializeField] private Transform plantsParent;   // l'objet "Plants" pour ranger la Hierarchy
-    [SerializeField] private float groundHeight = 0f;  // hauteur du sol
+    [SerializeField] private Plant plantPrefab;        // CHANGÉ : type Plant au lieu de GameObject
+    [SerializeField] private Transform plantsParent;
+    [SerializeField] private float groundHeight = 0f;
+
+    [Header("Dépendances")]
+    [SerializeField] private ScoreManager scoreManager; // NOUVEAU : à transmettre aux plantes
 
     [Header("Input")]
-    [SerializeField] private InputActionReference plantAction; // Gameplay/Plant
+    [SerializeField] private InputActionReference plantAction;
 
-    // Liste de toutes les plantations créées (une variable simple n'en garderait qu'une !)
-    private List<GameObject> plantedPlants = new List<GameObject>();
+    private List<Plant> plantedPlants = new List<Plant>();
 
     private void OnEnable()
     {
@@ -28,7 +31,6 @@ public class DronePlanter : MonoBehaviour
 
     private void Update()
     {
-        // Vrai uniquement pendant l'image où le bouton vient d'être enfoncé
         if (plantAction.action.WasPressedThisFrame())
         {
             PlantSeed();
@@ -37,18 +39,19 @@ public class DronePlanter : MonoBehaviour
 
     private void PlantSeed()
     {
-        // Sécurité : si on a oublié d'assigner le Prefab, on prévient au lieu de faire planter le jeu
         if (plantPrefab == null)
         {
             Debug.LogError("DronePlanter : aucun Prefab de plantation assigné dans l'Inspector !");
             return;
         }
 
-        // On garde le X et le Z du drone, mais on descend au niveau du sol
         Vector3 spawnPosition = new Vector3(transform.position.x, groundHeight, transform.position.z);
 
-        // Création de la copie, rangée dans l'objet "Plants"
-        GameObject newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity, plantsParent);
+        // Comme plantPrefab est de type Plant, Instantiate renvoie directement le script Plant
+        Plant newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity, plantsParent);
+
+        // INJECTION : on donne à la plante ce dont elle a besoin, au moment où elle naît
+        newPlant.Setup(scoreManager);
 
         plantedPlants.Add(newPlant);
     }

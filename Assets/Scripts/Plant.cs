@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 // Les 3 états possibles d'une plantation (une seule valeur à la fois)
@@ -9,8 +8,7 @@ public enum PlantState
     Overripe   // trop mûr : va bientôt éclater
 }
 
-// Gère la croissance d'une plantation : elle passe d'un état à l'autre avec le temps,
-// change d'apparence à chaque étape, puis éclate si personne ne la récolte.
+// Gère la vie d'une plantation : croissance, arrosage, récolte et éclatement.
 public class Plant : MonoBehaviour
 {
     [Header("Durée de chaque étape (en secondes)")]
@@ -19,66 +17,108 @@ public class Plant : MonoBehaviour
     [SerializeField] private float overripeDuration = 4f;
 
     [Header("Apparence de chaque étape")]
-    [SerializeField] private Transform visualRoot;          // l'enfant "Visual"
+    [SerializeField] private Transform visualRoot;
     [SerializeField] private GameObject seedModelPrefab;
     [SerializeField] private GameObject ripeModelPrefab;
     [SerializeField] private GameObject overripeModelPrefab;
 
     [Header("Arrosage")]
-    [SerializeField] private float wateredGrowthMultiplier = 2f; // ×2 = pousse deux fois plus vite
-    [SerializeField] private float wetDuration = 3f;            // reste mouillée 3 s après l'arrosage
+    [SerializeField] private float wateredGrowthMultiplier = 2f;
+    [SerializeField] private float wetDuration = 3f;
 
-    private float wetTimer = 0f; // temps restant avant que la plante sèche
+    [Header("Récolte")]                                   // NOUVEAU
+    [SerializeField] private int pointsPerHarvest = 1;    // NOUVEAU
 
-    // Tout le monde peut LIRE l'état (la récolte en aura besoin),
-    // mais seul ce script peut le MODIFIER.
     public PlantState CurrentState { get; private set; }
 
-    private float stageTimer = 0f;          // chrono de l'étape en cours
-    private float growthMultiplier = 1f;    // vitesse de pousse (servira à l'arrosage, brique 2.3)
-    private GameObject currentModel;        // le modèle 3D actuellement affiché
+    private float stageTimer = 0f;
+    private float growthMultiplier = 1f;
+    private float wetTimer = 0f;
+    private GameObject currentModel;
+
+    private ScoreManager scoreManager;   // NOUVEAU : donné par le DronePlanter à la naissance
+    private bool isFinished = false;     // NOUVEAU : déjà récoltée ou éclatée ?
+
+    // NOUVEAU : injection de dépendances, appelée juste après l'Instantiate
+    public void Setup(ScoreManager manager)
+    {
+        scoreManager = manager;
+    }
 
     private void Start()
     {
-        // Une plantation commence toujours en graine
         ChangeState(PlantState.Seed);
     }
 
     private void Update()
     {
+        if (isFinished) return; // NOUVEAU : une plante récoltée ne pousse plus
+
         UpdateWetness();
 
-        // On avance le chrono (plus vite si la plante est mouillée)
         stageTimer += Time.deltaTime * growthMultiplier;
 
-        // Assez de temps écoulé ? On passe à l'étape suivante
         if (stageTimer >= GetCurrentStageDuration())
         {
             GoToNextStage();
         }
     }
 
-    // Appelée par le drone quand il arrose cette plantation
-    public void Water()
+    // ---------- DÉTECTION DU DRONE (NOUVEAU) ----------
+    private void OnTriggerEnter(Collider other)
     {
-        wetTimer = wetDuration; // on "recharge" l'humidité
+        // "other" est le Collider qui entre : on vérifie que c'est bien le drone
+        if (other.GetComponent<DroneMovement>() != null)
+        {
+            TryHarvest(); // ne récolte que si la plante est mûre (vérifié dans TryHarvest)
+        }
     }
 
-    // Fait sécher la plante petit à petit et règle sa vitesse de pousse
+    // Récolte la plante SEULEMENT si elle est mûre
+    private void TryHarvest()
+    {
+        if (isFinished || CurrentState != PlantState.Ripe)
+        {
+            return;
+        }
+
+        isFinished = true;
+
+        if (scoreManager != null)
+        {
+            scoreManager.AddPoints(pointsPerHarvest);
+        }
+        else
+        {
+            Debug.LogWarning("Plant : aucun ScoreManager reçu, le point n'est pas compté !");
+        }
+
+        // Plus tard (brique 4.2) : son + particules de récolte ici
+        Destroy(gameObject);
+    }
+
+    // ---------- ARROSAGE ----------
+
+    public void Water()
+    {
+        wetTimer = wetDuration;
+    }
+
     private void UpdateWetness()
     {
         if (wetTimer > 0f)
         {
             wetTimer -= Time.deltaTime;
-            growthMultiplier = wateredGrowthMultiplier; // mouillée : pousse plus vite
+            growthMultiplier = wateredGrowthMultiplier;
         }
         else
         {
-            growthMultiplier = 1f; // sèche : vitesse normale
+            growthMultiplier = 1f;
         }
     }
 
-    // Renvoie la durée de l'étape dans laquelle on se trouve
+    // ---------- CROISSANCE ----------
+
     private float GetCurrentStageDuration()
     {
         switch (CurrentState)
@@ -92,7 +132,6 @@ public class Plant : MonoBehaviour
         }
     }
 
-    // Décide de ce qui vient après l'étape actuelle
     private void GoToNextStage()
     {
         switch (CurrentState)
@@ -109,19 +148,16 @@ public class Plant : MonoBehaviour
         }
     }
 
-    // Change l'état ET l'apparence de la plantation
     private void ChangeState(PlantState newState)
     {
         CurrentState = newState;
-        stageTimer = 0f; // nouveau chrono pour la nouvelle étape
+        stageTimer = 0f;
 
-        // On détruit l'ancien modèle s'il y en a un...
         if (currentModel != null)
         {
             Destroy(currentModel);
         }
 
-        // ...et on fait apparaître celui de la nouvelle étape, dans "Visual"
         GameObject modelPrefab = GetModelPrefab(newState);
         if (modelPrefab != null)
         {
@@ -133,7 +169,6 @@ public class Plant : MonoBehaviour
         }
     }
 
-    // Renvoie le bon Prefab de modèle selon l'état
     private GameObject GetModelPrefab(PlantState state)
     {
         switch (state)
@@ -147,10 +182,12 @@ public class Plant : MonoBehaviour
         }
     }
 
-    // Le légume a trop attendu : il éclate et disparaît
     private void Burst()
     {
+        if (isFinished) return; // NOUVEAU : sécurité contre un double appel
+        isFinished = true;
+
         // Plus tard (brique 4.2) : son + particules d'éclatement ici
-        Destroy(gameObject); // supprime toute la plantation de la scène ET de la Hierarchy
+        Destroy(gameObject);
     }
 }
