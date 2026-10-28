@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Les 3 états possibles d'une plantation (une seule valeur à la fois)
@@ -23,6 +24,12 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject ripeModelPrefab;
     [SerializeField] private GameObject overripeModelPrefab;
 
+    [Header("Arrosage")]
+    [SerializeField] private float wateredGrowthMultiplier = 2f; // ×2 = pousse deux fois plus vite
+    [SerializeField] private float wetDuration = 3f;            // reste mouillée 3 s après l'arrosage
+
+    private float wetTimer = 0f; // temps restant avant que la plante sèche
+
     // Tout le monde peut LIRE l'état (la récolte en aura besoin),
     // mais seul ce script peut le MODIFIER.
     public PlantState CurrentState { get; private set; }
@@ -39,13 +46,35 @@ public class Plant : MonoBehaviour
 
     private void Update()
     {
-        // On avance le chrono (plus vite si growthMultiplier > 1)
+        UpdateWetness();
+
+        // On avance le chrono (plus vite si la plante est mouillée)
         stageTimer += Time.deltaTime * growthMultiplier;
 
         // Assez de temps écoulé ? On passe à l'étape suivante
         if (stageTimer >= GetCurrentStageDuration())
         {
             GoToNextStage();
+        }
+    }
+
+    // Appelée par le drone quand il arrose cette plantation
+    public void Water()
+    {
+        wetTimer = wetDuration; // on "recharge" l'humidité
+    }
+
+    // Fait sécher la plante petit à petit et règle sa vitesse de pousse
+    private void UpdateWetness()
+    {
+        if (wetTimer > 0f)
+        {
+            wetTimer -= Time.deltaTime;
+            growthMultiplier = wateredGrowthMultiplier; // mouillée : pousse plus vite
+        }
+        else
+        {
+            growthMultiplier = 1f; // sèche : vitesse normale
         }
     }
 
