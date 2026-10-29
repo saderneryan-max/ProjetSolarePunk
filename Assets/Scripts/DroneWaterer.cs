@@ -7,8 +7,8 @@ public class DroneWaterer : MonoBehaviour
 {
     [Header("Arrosage")]
     [SerializeField] private float wateringRadius = 1f;   // taille de la zone arrosée
-    [SerializeField] private float groundHeight = 0f;     // hauteur du sol
     [SerializeField] private ParticleSystem waterSpray;   // le jet d'eau sous le drone
+    [SerializeField] private GroundSensor groundSensor;
 
     [Header("Input")]
     [SerializeField] private InputActionReference waterAction; // Gameplay/Water
@@ -74,9 +74,14 @@ public class DroneWaterer : MonoBehaviour
     }
 
     // Le point au sol juste sous le drone
+    // Le point au sol juste sous le drone
     private Vector3 GetWateringPoint()
     {
-        return new Vector3(transform.position.x, groundHeight, transform.position.z);
+        if (groundSensor != null && groundSensor.TryGetGroundPoint(transform.position, out Vector3 groundPoint))
+        {
+            return groundPoint;
+        }
+        return transform.position; // secours : sous le drone
     }
 
     // Dessine la zone d'arrosage dans la vue Scene (uniquement quand le drone est sélectionné)
