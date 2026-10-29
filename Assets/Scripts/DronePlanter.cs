@@ -2,17 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Fait apparaître une plantation juste sous le drone quand le joueur appuie sur "Plant",
+// Plante sous le drone le légume correspondant à la zone survolée,
 // et lui transmet le ScoreManager dès sa naissance (injection de dépendances).
 public class DronePlanter : MonoBehaviour
 {
     [Header("Plantation")]
-    [SerializeField] private Plant plantPrefab;        // CHANGÉ : type Plant au lieu de GameObject
     [SerializeField] private Transform plantsParent;
 
     [Header("Dépendances")]
-    [SerializeField] private ScoreManager scoreManager; // NOUVEAU : à transmettre aux plantes
+    [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GroundSensor groundSensor;
+    [SerializeField] private ZoneDetector zoneDetector;
 
     [Header("Input")]
     [SerializeField] private InputActionReference plantAction;
@@ -39,23 +39,21 @@ public class DronePlanter : MonoBehaviour
 
     private void PlantSeed()
     {
+        // Quel légume pousse ici ?
+        Plant plantPrefab = zoneDetector.GetPlantToPlant(out string zoneName);
         if (plantPrefab == null)
         {
-            Debug.LogError("DronePlanter : aucun Prefab de plantation assigné dans l'Inspector !");
-            return;
+            return; // zone où rien ne pousse
         }
 
-        // On cherche le sol juste sous le drone (pas de sol = pas de plantation)
+        // Où est le sol ?
         if (!groundSensor.TryGetGroundPoint(transform.position, out Vector3 spawnPosition))
         {
             return;
         }
 
         Plant newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity, plantsParent);
-
-        // INJECTION : on donne à la plante ce dont elle a besoin, au moment où elle naît
-        newPlant.Setup(scoreManager);
-
+        newPlant.Setup(scoreManager); // injection de dépendances
         plantedPlants.Add(newPlant);
     }
 }

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6150501466944771650
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: displayName
+      value: Potiron
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: burstPenalty
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: ripeDuration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: seedDuration
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: ripeModelPrefab
+      value: 
+      objectReference: {fileID: 4862015627967367229, guid: 1f2a4531fe849f041b15d68f30193f91, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: pointsPerHarvest
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554340567815123782, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_Name
+      value: Plant_Pumpkin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}

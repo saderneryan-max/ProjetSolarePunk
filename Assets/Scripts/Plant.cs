@@ -11,6 +11,9 @@ public enum PlantState
 // Gère la vie d'une plantation : croissance, arrosage, récolte et éclatement.
 public class Plant : MonoBehaviour
 {
+    [Header("Identité")]
+    [SerializeField] private string displayName = "Carotte"; // nom affiché à l'écran
+    public string DisplayName { get { return displayName; } } // lecture seule pour les autres scripts
     [Header("Durée de chaque étape (en secondes)")]
     [SerializeField] private float seedDuration = 8f;
     [SerializeField] private float ripeDuration = 6f;
