@@ -5261,6 +5261,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5386,6 +5387,28 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9c2a4241a0b1d4996b6c293960abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraOrbit
+  target: {fileID: 2070295336}
+  distance: 12
+  startYaw: 0
+  startPitch: 55
+  minPitch: 35
+  maxPitch: 80
+  mouseSensitivity: 0.15
+  stickSensitivity: 120
+  invertY: 0
+  lookAction: {fileID: -5872565048565648417, guid: 388611ea23b32be44804c50c0af52351, type: 3}
 --- !u!1 &393727859
 GameObject:
   m_ObjectHideFlags: 0
@@ -6378,8 +6401,9 @@ MonoBehaviour:
   pauseAction: {fileID: -4401099666299992446, guid: 388611ea23b32be44804c50c0af52351, type: 3}
   scriptsToDisableDuringPause:
   - {fileID: 2070295332}
-  - {fileID: 2070295332}
-  - {fileID: 2070295332}
+  - {fileID: 2070295337}
+  - {fileID: 2070295338}
+  - {fileID: 330585548}
 --- !u!1 &1215098329
 GameObject:
   m_ObjectHideFlags: 0
@@ -7191,6 +7215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DroneMovement
   moveSpeed: 5
   flightHeight: 3
+  turnSpeed: 8
+  cameraTransform: {fileID: 330585546}
   moveAction: {fileID: -2910050408259822483, guid: 388611ea23b32be44804c50c0af52351, type: 3}
 --- !u!65 &2070295333
 BoxCollider:
