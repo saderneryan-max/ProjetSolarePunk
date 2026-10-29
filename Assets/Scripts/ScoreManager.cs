@@ -56,6 +56,8 @@ public class ScoreManager : MonoBehaviour
         isGameOver = true;
         GameSession.LastScore = Score; // on range le score dans la boîte partagée
 
+        GameSession.IsNewRecord = BestScoreSaver.TrySave(Score); // sauvegarde + mémorise si c'est un record
+
         yield return new WaitForSeconds(delayBeforeEndScreen); // on attend 1 s...
 
         SceneManager.LoadScene(endSceneName); // ...puis on passe à l'écran de fin

@@ -3,4 +3,5 @@
 public static class GameSession
 {
     public static int LastScore = 0; // score de la dernière partie terminée
+    public static bool IsNewRecord = false; // NOUVEAU : la dernière partie a-t-elle battu le record ?
 }
