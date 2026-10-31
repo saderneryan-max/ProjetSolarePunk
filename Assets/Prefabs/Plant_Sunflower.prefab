@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 312064152367116384, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -67,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: ripeModelPrefab
       value: 
-      objectReference: {fileID: 6452677970517968939, guid: 7140ba08388a61946a1d59fb54823cd8, type: 3}
+      objectReference: {fileID: 919132149155446097, guid: e05ed5f9d08ceef4e9a618c4dbc71b72, type: 3}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: overripeDuration
       value: 3
@@ -76,9 +88,41 @@ PrefabInstance:
       propertyPath: pointsPerHarvest
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: overripeModelPrefab
+      value: 
+      objectReference: {fileID: 919132149155446097, guid: 3fe67d570aefe7c4783799510ffdf3c8, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: growthStageModels.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: 'growthStageModels.Array.data[0]'
+      value: 
+      objectReference: {fileID: 919132149155446097, guid: 81f3b122538bb504aa69a4a8dba0d66e, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: 'growthStageModels.Array.data[1]'
+      value: 
+      objectReference: {fileID: 919132149155446097, guid: d5c2daae13189b24582a549829a721cc, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: 'growthStageModels.Array.data[2]'
+      value: 
+      objectReference: {fileID: 919132149155446097, guid: b54a2bb800a238f49ad0ef5855ce805c, type: 3}
     - target: {fileID: 8554340567815123782, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: m_Name
       value: Plant_Sunflower
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077957500260726420, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077957500260726420, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077957500260726420, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

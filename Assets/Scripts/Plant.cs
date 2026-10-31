@@ -3,48 +3,54 @@ using UnityEngine;
 // Les 3 états possibles d'une plantation (une seule valeur à la fois)
 public enum PlantState
 {
-    Seed,      // graine : pas encore récoltable
+    Seed,      // en croissance : pas encore récoltable
     Ripe,      // légume mûr : récoltable !
-    Overripe   // trop mûr : va bientôt éclater
+    Overripe   // trop mûr : tremble, puis éclate
 }
 
-// Gère la vie d'une plantation : croissance, arrosage, récolte et éclatement.
+// Gère la vie d'une plantation : croissance par stades (animée), arrosage, récolte et éclatement.
 public class Plant : MonoBehaviour
 {
     [Header("Identité")]
-    [SerializeField] private string displayName = "Carotte"; // nom affiché à l'écran
-    public string DisplayName { get { return displayName; } } // lecture seule pour les autres scripts
-    [Header("Durée de chaque étape (en secondes)")]
-    [SerializeField] private float seedDuration = 8f;
+    [SerializeField] private string displayName = "Carotte";
+
+    [Header("Durée de chaque état (en secondes)")]
+    [SerializeField] private float seedDuration = 9f;      // temps total de pousse (tous les stades)
     [SerializeField] private float ripeDuration = 6f;
     [SerializeField] private float overripeDuration = 4f;
 
-    [Header("Apparence de chaque étape")]
-    [SerializeField] private Transform visualRoot;
-    [SerializeField] private GameObject seedModelPrefab;
-    [SerializeField] private GameObject ripeModelPrefab;
-    [SerializeField] private GameObject overripeModelPrefab;
+    [Header("Apparence")]
+    [SerializeField] private Transform modelRoot;              // l'enfant ModelRoot : les modèles y apparaissent
+    [SerializeField] private GameObject[] growthStageModels;   // stades de pousse, dans l'ordre (1, 2, 3...)
+    [SerializeField] private GameObject ripeModelPrefab;       // légume mûr
+    [SerializeField] private GameObject overripeModelPrefab;   // légume trop mûr
+
+    [Header("Animation")]
+    [SerializeField] private Animator visualAnimator;          // l'Animator posé sur Visual
+    [SerializeField] private string popStateName = "Plant_Pop";
+    [SerializeField] private string trembleStateName = "Plant_Tremble";
 
     [Header("Arrosage")]
     [SerializeField] private float wateredGrowthMultiplier = 2f;
     [SerializeField] private float wetDuration = 3f;
 
-    [Header("Récolte")]                                   // NOUVEAU
-    [SerializeField] private int pointsPerHarvest = 1;    // NOUVEAU
+    [Header("Récolte")]
+    [SerializeField] private int pointsPerHarvest = 1;
+    [SerializeField] private int burstPenalty = 1;
 
-    [SerializeField] private int burstPenalty = 1;        // points perdus si le légume éclate
-
+    public string DisplayName { get { return displayName; } }
     public PlantState CurrentState { get; private set; }
 
     private float stageTimer = 0f;
     private float growthMultiplier = 1f;
     private float wetTimer = 0f;
+    private int currentGrowthStage = -1;   // -1 = aucun stade affiché pour l'instant
     private GameObject currentModel;
 
-    private ScoreManager scoreManager;   // NOUVEAU : donné par le DronePlanter à la naissance
-    private bool isFinished = false;     // NOUVEAU : déjà récoltée ou éclatée ?
+    private ScoreManager scoreManager;     // donné par le DronePlanter à la naissance
+    private bool isFinished = false;       // déjà récoltée ou éclatée ?
 
-    // NOUVEAU : injection de dépendances, appelée juste après l'Instantiate
+    // Injection de dépendances : appelée juste après l'Instantiate
     public void Setup(ScoreManager manager)
     {
         scoreManager = manager;
@@ -57,11 +63,15 @@ public class Plant : MonoBehaviour
 
     private void Update()
     {
-        if (isFinished) return; // NOUVEAU : une plante récoltée ne pousse plus
+        if (isFinished) return;
 
         UpdateWetness();
-
         stageTimer += Time.deltaTime * growthMultiplier;
+
+        if (CurrentState == PlantState.Seed)
+        {
+            UpdateGrowthStage();
+        }
 
         if (stageTimer >= GetCurrentStageDuration())
         {
@@ -69,60 +79,73 @@ public class Plant : MonoBehaviour
         }
     }
 
-    // ---------- DÉTECTION DU DRONE (NOUVEAU) ----------
-    private void OnTriggerEnter(Collider other)
+    // ---------- CROISSANCE PAR STADES ----------
+
+    // Affiche le bon stade de pousse selon l'avancement du chrono
+    private void UpdateGrowthStage()
     {
-        // "other" est le Collider qui entre : on vérifie que c'est bien le drone
-        if (other.GetComponent<DroneMovement>() != null)
+        if (growthStageModels == null || growthStageModels.Length == 0) return;
+
+        // Avancement de 0 à 1, transformé en numéro de stade (0, 1, 2...)
+        float progress = stageTimer / seedDuration;
+        int stage = Mathf.Min(growthStageModels.Length - 1, (int)(progress * growthStageModels.Length));
+
+        if (stage != currentGrowthStage)
         {
-            TryHarvest(); // ne récolte que si la plante est mûre (vérifié dans TryHarvest)
+            currentGrowthStage = stage;
+            ShowModel(growthStageModels[stage]);
+            PlayAnimation(popStateName);
         }
     }
 
-    // Récolte la plante SEULEMENT si elle est mûre
-    private void TryHarvest()
+    private void ChangeState(PlantState newState)
     {
-        if (isFinished || CurrentState != PlantState.Ripe)
+        CurrentState = newState;
+        stageTimer = 0f;
+
+        switch (newState)
         {
-            return;
+            case PlantState.Seed:
+                currentGrowthStage = -1;
+                UpdateGrowthStage(); // affiche tout de suite le 1er stade
+                break;
+            case PlantState.Ripe:
+                ShowModel(ripeModelPrefab);
+                PlayAnimation(popStateName);
+                break;
+            case PlantState.Overripe:
+                ShowModel(overripeModelPrefab);
+                PlayAnimation(trembleStateName); // signal d'alerte : il va éclater !
+                break;
+        }
+    }
+
+    // Remplace le modèle affiché par un nouveau
+    private void ShowModel(GameObject modelPrefab)
+    {
+        if (currentModel != null)
+        {
+            Destroy(currentModel);
         }
 
-        isFinished = true;
-
-        if (scoreManager != null)
+        if (modelPrefab != null)
         {
-            scoreManager.RegisterHarvest(pointsPerHarvest);
+            currentModel = Instantiate(modelPrefab, modelRoot);
         }
         else
         {
-            Debug.LogWarning("Plant : aucun ScoreManager reçu, le point n'est pas compté !");
+            Debug.LogWarning($"{displayName} : un modèle n'est pas assigné pour l'état {CurrentState}");
         }
-
-        // Plus tard (brique 4.2) : son + particules de récolte ici
-        Destroy(gameObject);
     }
 
-    // ---------- ARROSAGE ----------
-
-    public void Water()
+    // Relance une animation depuis son début (0f = au tout début du clip)
+    private void PlayAnimation(string stateName)
     {
-        wetTimer = wetDuration;
-    }
-
-    private void UpdateWetness()
-    {
-        if (wetTimer > 0f)
+        if (visualAnimator != null)
         {
-            wetTimer -= Time.deltaTime;
-            growthMultiplier = wateredGrowthMultiplier;
-        }
-        else
-        {
-            growthMultiplier = 1f;
+            visualAnimator.Play(stateName, 0, 0f);
         }
     }
-
-    // ---------- CROISSANCE ----------
 
     private float GetCurrentStageDuration()
     {
@@ -153,38 +176,29 @@ public class Plant : MonoBehaviour
         }
     }
 
-    private void ChangeState(PlantState newState)
+    // ---------- RÉCOLTE ----------
+
+    private void OnTriggerEnter(Collider other)
     {
-        CurrentState = newState;
-        stageTimer = 0f;
-
-        if (currentModel != null)
+        if (other.GetComponent<DroneMovement>() != null)
         {
-            Destroy(currentModel);
-        }
-
-        GameObject modelPrefab = GetModelPrefab(newState);
-        if (modelPrefab != null)
-        {
-            currentModel = Instantiate(modelPrefab, visualRoot);
-        }
-        else
-        {
-            Debug.LogWarning($"Plant : aucun modèle assigné pour l'état {newState}");
+            TryHarvest(); // ne récolte que si la plante est mûre
         }
     }
 
-    private GameObject GetModelPrefab(PlantState state)
+    private void TryHarvest()
     {
-        switch (state)
+        if (isFinished || CurrentState != PlantState.Ripe) return;
+
+        isFinished = true;
+
+        if (scoreManager != null)
         {
-            case PlantState.Seed:
-                return seedModelPrefab;
-            case PlantState.Ripe:
-                return ripeModelPrefab;
-            default:
-                return overripeModelPrefab;
+            scoreManager.RegisterHarvest(pointsPerHarvest);
         }
+
+        // Plus tard (brique 4.2) : son + particules de récolte ici
+        Destroy(gameObject);
     }
 
     private void Burst()
@@ -192,7 +206,6 @@ public class Plant : MonoBehaviour
         if (isFinished) return;
         isFinished = true;
 
-        // Un légume perdu coûte des points
         if (scoreManager != null)
         {
             scoreManager.RegisterBurst(burstPenalty);
@@ -200,5 +213,25 @@ public class Plant : MonoBehaviour
 
         // Plus tard (brique 4.2) : son + particules d'éclatement ici
         Destroy(gameObject);
+    }
+
+    // ---------- ARROSAGE ----------
+
+    public void Water()
+    {
+        wetTimer = wetDuration;
+    }
+
+    private void UpdateWetness()
+    {
+        if (wetTimer > 0f)
+        {
+            wetTimer -= Time.deltaTime;
+            growthMultiplier = wateredGrowthMultiplier;
+        }
+        else
+        {
+            growthMultiplier = 1f;
+        }
     }
 }
