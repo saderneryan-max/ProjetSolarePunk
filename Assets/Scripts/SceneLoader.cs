@@ -8,6 +8,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         Time.timeScale = 1f; // sécurité : remet le temps en marche (utile après le menu pause)
+        AudioListener.pause = false; // sécurité : on quitte peut-être la scène depuis le menu pause
         SceneManager.LoadScene(sceneName);
     }
 

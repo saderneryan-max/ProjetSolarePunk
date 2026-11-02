@@ -147,6 +147,10 @@ MonoBehaviour:
   wetDuration: 3
   pointsPerHarvest: 1
   burstPenalty: 1
+  plantEffectPrefab: {fileID: 8138821465897910643, guid: a2d6afc0dac178246ae867fd14007a1b, type: 3}
+  harvestEffectPrefab: {fileID: 1928748304269393639, guid: 8a47c1b19f35fae4397a4b862732c9db, type: 3}
+  burstEffectPrefab: {fileID: 1439293697162306063, guid: 73061477f6e38cb40a7b914932e1c4b7, type: 3}
+  effectHeight: 0.5
 --- !u!65 &2628109341459988101
 BoxCollider:
   m_ObjectHideFlags: 0

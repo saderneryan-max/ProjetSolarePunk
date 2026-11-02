@@ -21,6 +21,11 @@ public class DroneRotorController : MonoBehaviour
     [SerializeField] private float maxTiltAngle = 12f;       // inclinaison maximum en degrés
     [SerializeField] private float tiltSmoothing = 5f;
 
+    [Header("Son des moteurs")]
+    [SerializeField] private AudioSource motorSound;
+    [SerializeField] private Vector2 motorPitchRange = new Vector2(0.8f, 1.4f); // grave au ralenti, aigu à fond
+    [SerializeField] private float motorMaxVolume = 0.5f;
+
     // On convertit le nom du paramètre en nombre une seule fois : plus rapide et sans faute de frappe
     private static readonly int RotorSpeedParam = Animator.StringToHash("RotorSpeed");
 
@@ -68,6 +73,14 @@ public class DroneRotorController : MonoBehaviour
         if (animator != null)
         {
             animator.SetFloat(RotorSpeedParam, currentRotorSpeed);
+        }
+
+        // Le son suit le régime des hélices : plus elles tournent vite, plus c'est aigu et fort
+        if (motorSound != null)
+        {
+            float rpm = Mathf.InverseLerp(0f, maxRotorSpeed, currentRotorSpeed); // 0 à 1
+            motorSound.pitch = Mathf.Lerp(motorPitchRange.x, motorPitchRange.y, rpm);
+            motorSound.volume = rpm * motorMaxVolume;
         }
     }
 

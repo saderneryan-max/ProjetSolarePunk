@@ -38,6 +38,12 @@ public class Plant : MonoBehaviour
     [SerializeField] private int pointsPerHarvest = 1;
     [SerializeField] private int burstPenalty = 1;
 
+    [Header("Effets (son + particules)")]
+    [SerializeField] private GameObject plantEffectPrefab;
+    [SerializeField] private GameObject harvestEffectPrefab;
+    [SerializeField] private GameObject burstEffectPrefab;
+    [SerializeField] private float effectHeight = 0.5f;   // hauteur de l'effet au-dessus du sol
+
     public string DisplayName { get { return displayName; } }
     public PlantState CurrentState { get; private set; }
 
@@ -58,6 +64,7 @@ public class Plant : MonoBehaviour
 
     private void Start()
     {
+        SpawnEffect(plantEffectPrefab);
         ChangeState(PlantState.Seed);
     }
 
@@ -138,6 +145,16 @@ public class Plant : MonoBehaviour
         }
     }
 
+    // Crée un effet à l'emplacement de la plante.
+    // Il n'est PAS enfant de la plante : il survit donc à sa destruction.
+    private void SpawnEffect(GameObject effectPrefab)
+    {
+        if (effectPrefab == null) return;
+
+        Vector3 position = transform.position + Vector3.up * effectHeight;
+        Instantiate(effectPrefab, position, Quaternion.identity);
+    }
+
     // Relance une animation depuis son début (0f = au tout début du clip)
     private void PlayAnimation(string stateName)
     {
@@ -198,6 +215,7 @@ public class Plant : MonoBehaviour
         }
 
         // Plus tard (brique 4.2) : son + particules de récolte ici
+        SpawnEffect(harvestEffectPrefab);
         Destroy(gameObject);
     }
 
@@ -212,6 +230,7 @@ public class Plant : MonoBehaviour
         }
 
         // Plus tard (brique 4.2) : son + particules d'éclatement ici
+        SpawnEffect(burstEffectPrefab);
         Destroy(gameObject);
     }
 

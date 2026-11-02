@@ -10,6 +10,7 @@ public class DroneWaterer : MonoBehaviour
     [SerializeField] private ParticleSystem waterSpray;   // le jet d'eau sous le drone
     [SerializeField] private GroundSensor groundSensor;
     [SerializeField] private WaterTank waterTank;
+    [SerializeField] private AudioSource sprayLoopSound;   // bruit du jet d'eau (en boucle)
 
     [Header("Input")]
     [SerializeField] private InputActionReference waterAction; // Gameplay/Water
@@ -40,20 +41,19 @@ public class DroneWaterer : MonoBehaviour
     }
 
     // Allume ou éteint le jet de particules
+    // Allume ou éteint le jet de particules ET son bruit
     private void UpdateSpray(bool isWatering)
     {
-        if (waterSpray == null)
+        if (waterSpray != null)
         {
-            return;
+            if (isWatering && !waterSpray.isPlaying) waterSpray.Play();
+            else if (!isWatering && waterSpray.isPlaying) waterSpray.Stop();
         }
 
-        if (isWatering && !waterSpray.isPlaying)
+        if (sprayLoopSound != null)
         {
-            waterSpray.Play();
-        }
-        else if (!isWatering && waterSpray.isPlaying)
-        {
-            waterSpray.Stop();
+            if (isWatering && !sprayLoopSound.isPlaying) sprayLoopSound.Play();
+            else if (!isWatering && sprayLoopSound.isPlaying) sprayLoopSound.Stop();
         }
     }
 

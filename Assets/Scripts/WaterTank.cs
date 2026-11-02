@@ -12,6 +12,10 @@ public class WaterTank : MonoBehaviour
     [SerializeField] private ZoneDetector zoneDetector;
     [SerializeField] private WaterTankDisplay display;
 
+    [Header("Sons")]
+    [SerializeField] private AudioSource refillLoopSound;  // bruit de pompe (en boucle)
+    [SerializeField] private AudioSource emptyAlertSound;  // bip quand le réservoir se vide
+
     public float CurrentWater { get; private set; }
     public bool HasWater { get { return CurrentWater > 0f; } }
     public bool IsRefilling { get; private set; }
@@ -30,6 +34,8 @@ public class WaterTank : MonoBehaviour
         {
             CurrentWater = Mathf.Min(capacity, CurrentWater + refillPerSecond * Time.deltaTime);
         }
+        
+        UpdateRefillSound();
 
         RefreshDisplay();
     }
@@ -37,8 +43,22 @@ public class WaterTank : MonoBehaviour
     // Appelée par le DroneWaterer à chaque image d'arrosage
     public void UseWater(float deltaTime)
     {
-        // Mathf.Max : le réservoir ne descend jamais sous 0
+        bool hadWater = HasWater;
         CurrentWater = Mathf.Max(0f, CurrentWater - consumptionPerSecond * deltaTime);
+
+        // Le réservoir vient de se vider À CETTE IMAGE : on prévient le joueur une seule fois
+        if (hadWater && !HasWater && emptyAlertSound != null)
+        {
+            emptyAlertSound.Play();
+        }
+    }
+
+    private void UpdateRefillSound()
+    {
+        if (refillLoopSound == null) return;
+
+        if (IsRefilling && !refillLoopSound.isPlaying) refillLoopSound.Play();
+        else if (!IsRefilling && refillLoopSound.isPlaying) refillLoopSound.Stop();
     }
 
     private void RefreshDisplay()

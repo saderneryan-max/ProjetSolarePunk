@@ -65,6 +65,9 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1f;
         }
 
+        // Met en pause (ou relance) TOUS les sons du jeu
+        AudioListener.pause = paused;
+
         // Couper ou rallumer les scripts du drone (enabled = false déclenche leur OnDisable)
         foreach (MonoBehaviour script in scriptsToDisableDuringPause)
         {
