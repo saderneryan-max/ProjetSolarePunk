@@ -7,11 +7,12 @@ public class PlantingZone : MonoBehaviour
 {
     [SerializeField] private string zoneName = "Colline";
     [SerializeField] private Plant plantPrefab;   // laisser VIDE = rien ne peut pousser ici
+    [SerializeField] private bool isWaterSource = false; // une mare : on peut y remplir le réservoir
     [SerializeField] private Color gizmoColor = new Color(1f, 0.8f, 0f, 0.3f);
 
     public string ZoneName { get { return zoneName; } }
     public Plant PlantPrefab { get { return plantPrefab; } }
-
+    public bool IsWaterSource { get { return isWaterSource; } }
     // Dessine la zone en couleur dans la vue Scene (invisible en jeu)
     private void OnDrawGizmos()
     {

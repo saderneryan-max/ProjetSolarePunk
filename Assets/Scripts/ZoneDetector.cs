@@ -31,6 +31,13 @@ public class ZoneDetector : MonoBehaviour
         return defaultPlantPrefab;
     }
 
+    // Le drone survole-t-il un point d'eau (mare) ?
+    public bool IsAboveWater()
+    {
+        PlantingZone zone = GetZoneBelow();
+        return zone != null && zone.IsWaterSource;
+    }
+
     // Cherche une PlantingZone au point du sol juste sous le drone
     private PlantingZone GetZoneBelow()
     {

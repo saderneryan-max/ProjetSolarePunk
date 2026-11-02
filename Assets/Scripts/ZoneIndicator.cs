@@ -11,7 +11,11 @@ public class ZoneIndicator : MonoBehaviour
     {
         Plant plant = zoneDetector.GetPlantToPlant(out string zoneName);
 
-        if (plant != null)
+        if (zoneDetector.IsAboveWater())
+        {
+            zoneText.text = $"{zoneName} : remplissage du réservoir";
+        }
+        else if (plant != null)
         {
             zoneText.text = $"{zoneName} : {plant.DisplayName}";
         }

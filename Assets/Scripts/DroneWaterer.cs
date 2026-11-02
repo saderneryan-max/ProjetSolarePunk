@@ -9,6 +9,7 @@ public class DroneWaterer : MonoBehaviour
     [SerializeField] private float wateringRadius = 1f;   // taille de la zone arrosée
     [SerializeField] private ParticleSystem waterSpray;   // le jet d'eau sous le drone
     [SerializeField] private GroundSensor groundSensor;
+    [SerializeField] private WaterTank waterTank;
 
     [Header("Input")]
     [SerializeField] private InputActionReference waterAction; // Gameplay/Water
@@ -25,13 +26,15 @@ public class DroneWaterer : MonoBehaviour
 
     private void Update()
     {
-        // IsPressed = vrai TANT QUE le bouton est maintenu (on arrose en continu)
-        bool isWatering = waterAction.action.IsPressed();
+        // On arrose seulement si le bouton est maintenu ET qu'il reste de l'eau
+        bool wantsToWater = waterAction.action.IsPressed();
+        bool isWatering = wantsToWater && waterTank.HasWater;
 
         UpdateSpray(isWatering);
 
         if (isWatering)
         {
+            waterTank.UseWater(Time.deltaTime);
             WaterPlantsBelow();
         }
     }
