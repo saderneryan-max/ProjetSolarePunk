@@ -11,6 +11,7 @@ public class DroneWaterer : MonoBehaviour
     [SerializeField] private GroundSensor groundSensor;
     [SerializeField] private WaterTank waterTank;
     [SerializeField] private AudioSource sprayLoopSound;   // bruit du jet d'eau (en boucle)
+    [SerializeField] private ParticleSystem groundSplash;  // éclaboussures au point d'impact
 
     [Header("Input")]
     [SerializeField] private InputActionReference waterAction; // Gameplay/Water
@@ -54,6 +55,15 @@ public class DroneWaterer : MonoBehaviour
         {
             if (isWatering && !sprayLoopSound.isPlaying) sprayLoopSound.Play();
             else if (!isWatering && sprayLoopSound.isPlaying) sprayLoopSound.Stop();
+        }
+
+        if (groundSplash != null)
+        {
+            // L'effet suit le point du sol touché par l'eau (sur le relief aussi)
+            groundSplash.transform.position = GetWateringPoint();
+
+            if (isWatering && !groundSplash.isPlaying) groundSplash.Play();
+            else if (!isWatering && groundSplash.isPlaying) groundSplash.Stop();
         }
     }
 

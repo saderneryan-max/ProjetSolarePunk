@@ -43,6 +43,7 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject harvestEffectPrefab;
     [SerializeField] private GameObject burstEffectPrefab;
     [SerializeField] private float effectHeight = 0.5f;   // hauteur de l'effet au-dessus du sol
+    [SerializeField] private ParticleSystem overripeWarning; // mouches autour d'un légume trop mûr
 
     public string DisplayName { get { return displayName; } }
     public PlantState CurrentState { get; private set; }
@@ -123,6 +124,10 @@ public class Plant : MonoBehaviour
             case PlantState.Overripe:
                 ShowModel(overripeModelPrefab);
                 PlayAnimation(trembleStateName); // signal d'alerte : il va éclater !
+                if (overripeWarning != null)
+                {
+                    overripeWarning.Play(); // signal visuel en plus du tremblement
+                }
                 break;
         }
     }

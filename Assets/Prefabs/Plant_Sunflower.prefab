@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4520285940515842511, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898742100561818272, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898742100561818272, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898742100561818272, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: displayName
       value: Tournesol
@@ -88,6 +104,10 @@ PrefabInstance:
       propertyPath: pointsPerHarvest
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: burstEffectPrefab
+      value: 
+      objectReference: {fileID: 4872509045225792098, guid: 6f407f6417cdadc46a488f88b0c8af27, type: 3}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: overripeModelPrefab
       value: 
