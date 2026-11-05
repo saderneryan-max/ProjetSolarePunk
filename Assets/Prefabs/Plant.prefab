@@ -4989,6 +4989,9 @@ MonoBehaviour:
   burstEffectPrefab: {fileID: 1439293697162306063, guid: 73061477f6e38cb40a7b914932e1c4b7, type: 3}
   effectHeight: 0.5
   overripeWarning: {fileID: 7898742100561818272}
+  floatingTextPrefab: {fileID: 8467409909746410396, guid: 1a75dfdebf1708a4d842c70195246555, type: 3}
+  gainColor: {r: 0.55, g: 1, b: 0.45, a: 1}
+  lossColor: {r: 1, g: 0.4, b: 0.35, a: 1}
 --- !u!65 &2628109341459988101
 BoxCollider:
   m_ObjectHideFlags: 0

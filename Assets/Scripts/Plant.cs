@@ -45,6 +45,11 @@ public class Plant : MonoBehaviour
     [SerializeField] private float effectHeight = 0.5f;   // hauteur de l'effet au-dessus du sol
     [SerializeField] private ParticleSystem overripeWarning; // mouches autour d'un légume trop mûr
 
+    [Header("Texte flottant")]
+    [SerializeField] private FloatingText floatingTextPrefab;
+    [SerializeField] private Color gainColor = new Color(0.55f, 1f, 0.45f);   // vert
+    [SerializeField] private Color lossColor = new Color(1f, 0.4f, 0.35f);    // rouge
+
     public string DisplayName { get { return displayName; } }
     public PlantState CurrentState { get; private set; }
 
@@ -160,6 +165,16 @@ public class Plant : MonoBehaviour
         Instantiate(effectPrefab, position, Quaternion.identity);
     }
 
+    // Fait apparaître un texte "+3" / "-1" au-dessus de la plante
+    private void SpawnFloatingText(string text, Color color)
+    {
+        if (floatingTextPrefab == null) return;
+
+        Vector3 position = transform.position + Vector3.up * (effectHeight + 0.8f);
+        FloatingText floatingText = Instantiate(floatingTextPrefab, position, Quaternion.identity);
+        floatingText.Setup(text, color);
+    }
+
     // Relance une animation depuis son début (0f = au tout début du clip)
     private void PlayAnimation(string stateName)
     {
@@ -221,6 +236,7 @@ public class Plant : MonoBehaviour
 
         // Plus tard (brique 4.2) : son + particules de récolte ici
         SpawnEffect(harvestEffectPrefab);
+        SpawnFloatingText($"+{pointsPerHarvest}", gainColor);
         Destroy(gameObject);
     }
 
@@ -236,6 +252,7 @@ public class Plant : MonoBehaviour
 
         // Plus tard (brique 4.2) : son + particules d'éclatement ici
         SpawnEffect(burstEffectPrefab);
+        SpawnFloatingText($"-{burstPenalty}", lossColor);
         Destroy(gameObject);
     }
 

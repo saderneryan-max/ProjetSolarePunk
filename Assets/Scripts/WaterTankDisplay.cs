@@ -13,6 +13,12 @@ public class WaterTankDisplay : MonoBehaviour
     [SerializeField] private Color lowColor = new Color(1f, 0.4f, 0.3f);       // rouge-orangé
     [SerializeField][Range(0f, 1f)] private float lowThreshold = 0.25f;       // alerte sous 25 %
 
+    [Header("Animation")]
+    [SerializeField] private Animator gaugeAnimator;
+
+    // Le nom du paramètre converti une seule fois en numéro (plus rapide, sans faute de frappe)
+    private static readonly int IsLowParam = Animator.StringToHash("IsLow");
+
     // fillRatio : 0 = vide, 1 = plein
     public void Show(float fillRatio, bool isRefilling)
     {
@@ -30,6 +36,11 @@ public class WaterTankDisplay : MonoBehaviour
         else
         {
             statusText.text = $"Eau : {Mathf.RoundToInt(fillRatio * 100f)} %";
+        }
+        // L'Animator passe tout seul en mode "clignotement" quand le niveau est bas
+        if (gaugeAnimator != null)
+        {
+            gaugeAnimator.SetBool(IsLowParam, fillRatio <= lowThreshold);
         }
     }
 }

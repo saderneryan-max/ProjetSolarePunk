@@ -1,27 +1,48 @@
 using TMPro;
 using UnityEngine;
 
-// Affiche à l'écran la zone survolée et le légume qu'on peut y planter.
+// Affiche la zone survolée et ce qu'on peut y faire, avec une petite animation à chaque changement.
 public class ZoneIndicator : MonoBehaviour
 {
     [SerializeField] private ZoneDetector zoneDetector;
     [SerializeField] private TMP_Text zoneText;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string changeStateName = "Zone_Change";
+
+    private string lastText = "";
+
     private void Update()
+    {
+        string newText = BuildText();
+
+        // On ne touche au texte (et on n'anime) QUE s'il a changé
+        if (newText != lastText)
+        {
+            zoneText.text = newText;
+            lastText = newText;
+
+            if (animator != null)
+            {
+                animator.Play(changeStateName, 0, 0f);
+            }
+        }
+    }
+
+    // Construit le message selon la zone survolée
+    private string BuildText()
     {
         Plant plant = zoneDetector.GetPlantToPlant(out string zoneName);
 
         if (zoneDetector.IsAboveWater())
         {
-            zoneText.text = $"{zoneName} : remplissage du réservoir";
+            return $"{zoneName} : remplissage du réservoir";
         }
-        else if (plant != null)
+        if (plant != null)
         {
-            zoneText.text = $"{zoneName} : {plant.DisplayName}";
+            return $"{zoneName} : {plant.DisplayName}";
         }
-        else
-        {
-            zoneText.text = $"{zoneName} : rien ne pousse ici";
-        }
+        return $"{zoneName} : rien ne pousse ici";
     }
 }

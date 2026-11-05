@@ -17112,6 +17112,7 @@ GameObject:
   - component: {fileID: 833280020}
   - component: {fileID: 833280019}
   - component: {fileID: 833280018}
+  - component: {fileID: 833280022}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -17132,6 +17133,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreDisplay
   scoreText: {fileID: 833280019}
+  animator: {fileID: 833280022}
+  gainStateName: Score_Gain
+  lossStateName: Score_Loss
 --- !u!114 &833280019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17251,6 +17255,28 @@ RectTransform:
   m_AnchoredPosition: {x: 40, y: -40}
   m_SizeDelta: {x: 600, y: 200}
   m_Pivot: {x: 0, y: 1}
+--- !u!95 &833280022
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833280017}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2c049563046e06740ac224792f383c69, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &838880412
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18501,6 +18527,8 @@ GameObject:
   - component: {fileID: 968233829}
   - component: {fileID: 968233828}
   - component: {fileID: 968233827}
+  - component: {fileID: 968233831}
+  - component: {fileID: 968233830}
   m_Layer: 5
   m_Name: ZoneText
   m_TagString: Untagged
@@ -18541,6 +18569,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZoneIndicator
   zoneDetector: {fileID: 2070295342}
   zoneText: {fileID: 968233828}
+  animator: {fileID: 968233830}
+  changeStateName: Zone_Change
 --- !u!114 &968233828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18641,6 +18671,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968233825}
   m_CullTransparentMesh: 1
+--- !u!95 &968233830
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968233825}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 50b5f43aecacbb346980cda3fcb238d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &968233831
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968233825}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &973385301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d224b821a6303746a7862df9804c45d, type: 3}
@@ -29738,6 +29802,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1505323899}
   - component: {fileID: 1505323900}
+  - component: {fileID: 1505323902}
+  - component: {fileID: 1505323901}
   m_Layer: 5
   m_Name: WaterGauge
   m_TagString: Untagged
@@ -29783,6 +29849,41 @@ MonoBehaviour:
   normalColor: {r: 0.3, g: 0.75, b: 1, a: 1}
   lowColor: {r: 1, g: 0.4, b: 0.3, a: 1}
   lowThreshold: 0.25
+  gaugeAnimator: {fileID: 1505323901}
+--- !u!95 &1505323901
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505323898}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 12df3b91ea45c004b910855ade9ab4d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &1505323902
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505323898}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &1509843093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9f436c8c94d0bff42810232b2be1c81e, type: 3}
