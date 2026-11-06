@@ -27,15 +27,15 @@ public class WaterTankDisplay : MonoBehaviour
 
         if (isRefilling)
         {
-            statusText.text = "Remplissage...";
+            statusText.text = "+ + +";
         }
         else if (fillRatio <= 0f)
         {
-            statusText.text = "Réservoir vide ! Va à une mare";
+            statusText.text = "Vide !";
         }
         else
         {
-            statusText.text = $"Eau : {Mathf.RoundToInt(fillRatio * 100f)} %";
+            statusText.text = $"{Mathf.RoundToInt(fillRatio * 100f)} %";
         }
         // L'Animator passe tout seul en mode "clignotement" quand le niveau est bas
         if (gaugeAnimator != null)

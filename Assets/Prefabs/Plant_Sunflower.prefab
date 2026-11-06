@@ -77,6 +77,10 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 7367808777163505026, guid: 0d52e6ab29c94fe4784e8258e8a98af9, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: displayName
       value: Tournesol
       objectReference: {fileID: 0}

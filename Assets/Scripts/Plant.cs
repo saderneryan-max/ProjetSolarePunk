@@ -13,6 +13,9 @@ public class Plant : MonoBehaviour
 {
     [Header("Identité")]
     [SerializeField] private string displayName = "Carotte";
+    [SerializeField] private Sprite icon;                     // icône affichée dans l'interface
+
+    public Sprite Icon { get { return icon; } }
 
     [Header("Durée de chaque état (en secondes)")]
     [SerializeField] private float seedDuration = 9f;      // temps total de pousse (tous les stades)
