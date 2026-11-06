@@ -1,11 +1,18 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-// Affiche la zone survolée et ce qu'on peut y faire, avec une petite animation à chaque changement.
+// Affiche la zone survolée, son icône et ce qu'on peut y faire,
+// avec une petite animation à chaque changement de zone.
 public class ZoneIndicator : MonoBehaviour
 {
     [SerializeField] private ZoneDetector zoneDetector;
     [SerializeField] private TMP_Text zoneText;
+    [SerializeField] private Image zoneIcon;
+
+    [Header("Icônes spéciales")]
+    [SerializeField] private Sprite waterIcon;     // au-dessus d'une mare
+    [SerializeField] private Sprite noPlantIcon;   // zone où rien ne pousse
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -15,34 +22,43 @@ public class ZoneIndicator : MonoBehaviour
 
     private void Update()
     {
-        string newText = BuildText();
+        Plant plant = zoneDetector.GetPlantToPlant(out string zoneName);
 
-        // On ne touche au texte (et on n'anime) QUE s'il a changé
+        string newText;
+        Sprite newIcon;
+
+        if (zoneDetector.IsAboveWater())
+        {
+            newText = $"{zoneName} : remplissage";
+            newIcon = waterIcon;
+        }
+        else if (plant != null)
+        {
+            newText = $"{zoneName} : {plant.DisplayName}";
+            newIcon = plant.Icon; // l'icône vient du légume lui-même
+        }
+        else
+        {
+            newText = $"{zoneName} : rien ne pousse ici";
+            newIcon = noPlantIcon;
+        }
+
+        // On ne met à jour (et on n'anime) QUE si la zone a changé
         if (newText != lastText)
         {
-            zoneText.text = newText;
             lastText = newText;
+            zoneText.text = newText;
+
+            if (zoneIcon != null)
+            {
+                zoneIcon.sprite = newIcon;
+                zoneIcon.enabled = newIcon != null; // pas d'icône = on cache l'image (pas de carré blanc)
+            }
 
             if (animator != null)
             {
                 animator.Play(changeStateName, 0, 0f);
             }
         }
-    }
-
-    // Construit le message selon la zone survolée
-    private string BuildText()
-    {
-        Plant plant = zoneDetector.GetPlantToPlant(out string zoneName);
-
-        if (zoneDetector.IsAboveWater())
-        {
-            return $"{zoneName} : remplissage du réservoir";
-        }
-        if (plant != null)
-        {
-            return $"{zoneName} : {plant.DisplayName}";
-        }
-        return $"{zoneName} : rien ne pousse ici";
     }
 }
