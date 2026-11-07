@@ -28793,6 +28793,7 @@ GameObject:
   - component: {fileID: 1275397209}
   - component: {fileID: 1275397211}
   - component: {fileID: 1275397210}
+  - component: {fileID: 1275397212}
   m_Layer: 5
   m_Name: ControlsHint
   m_TagString: Untagged
@@ -28859,6 +28860,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275397208}
   m_CullTransparentMesh: 1
+--- !u!114 &1275397212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275397208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc829bc087ea8546b48631bb039e943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControlsHintSwitcher
+  keyboardHints: {fileID: 415209299}
+  gamepadHints: {fileID: 956841636}
+  stickDeadZone: 0.2
 --- !u!1001 &1282777015
 PrefabInstance:
   m_ObjectHideFlags: 0
