@@ -47,6 +47,12 @@ public class DronePlanter : MonoBehaviour
             return; // zone où rien ne pousse
         }
 
+        // Il faut une graine de ce légume dans l'inventaire (les graines sont toujours de qualité Bronze)
+        if (inventory != null && !inventory.TryRemove(plantPrefab.CropData, ItemKind.Seed, CropQuality.Bronze))
+        {
+            return; // pas de graine : on ne plante pas (le badge de zone le signale au joueur)
+        }
+
         // Où est le sol ?
         if (!groundSensor.TryGetGroundPoint(transform.position, out Vector3 spawnPosition))
         {

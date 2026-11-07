@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ZoneIndicator : MonoBehaviour
 {
     [SerializeField] private ZoneDetector zoneDetector;
+    [SerializeField] private Inventory inventory;
     [SerializeField] private TMP_Text zoneText;
     [SerializeField] private Image zoneIcon;
 
@@ -34,8 +35,14 @@ public class ZoneIndicator : MonoBehaviour
         }
         else if (plant != null)
         {
-            newText = $"{zoneName} : {plant.DisplayName}";
-            newIcon = plant.Icon; // l'icône vient du légume lui-même
+            int seeds = inventory != null
+                ? inventory.CountOf(plant.CropData, ItemKind.Seed, CropQuality.Bronze)
+                : 0;
+
+            newText = seeds > 0
+                ? $"{zoneName} : {plant.DisplayName} (x{seeds})"
+                : $"{zoneName} : plus de graine de {plant.DisplayName} !";
+            newIcon = plant.Icon;
         }
         else
         {
