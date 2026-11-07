@@ -65,6 +65,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3801843947054940190, guid: d8ff9ee719c3d2e46b5d5d69e632d2c9, type: 3}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: cropData
+      value: 
+      objectReference: {fileID: 11400000, guid: ed9e74aac44b83147aabaf26087b4a0c, type: 2}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: displayName
       value: Potiron
       objectReference: {fileID: 0}

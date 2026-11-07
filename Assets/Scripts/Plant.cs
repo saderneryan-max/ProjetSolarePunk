@@ -12,10 +12,11 @@ public enum PlantState
 public class Plant : MonoBehaviour
 {
     [Header("Identité")]
-    [SerializeField] private string displayName = "Carotte";
-    [SerializeField] private Sprite icon;                     // icône affichée dans l'interface
+    [SerializeField] private CropData cropData;   // la fiche du légume (nom, icône, prix)
 
-    public Sprite Icon { get { return icon; } }
+    public CropData CropData => cropData;
+    public string DisplayName => cropData != null ? cropData.DisplayName : name;
+    public Sprite Icon => cropData != null ? cropData.Icon : null;
 
     [Header("Durée de chaque état (en secondes)")]
     [SerializeField] private float seedDuration = 9f;      // temps total de pousse (tous les stades)
@@ -50,10 +51,8 @@ public class Plant : MonoBehaviour
 
     [Header("Texte flottant")]
     [SerializeField] private FloatingText floatingTextPrefab;
-    [SerializeField] private Color gainColor = new Color(0.55f, 1f, 0.45f);   // vert
     [SerializeField] private Color lossColor = new Color(1f, 0.4f, 0.35f);    // rouge
 
-    public string DisplayName { get { return displayName; } }
     public PlantState CurrentState { get; private set; }
 
     private float stageTimer = 0f;
@@ -63,16 +62,25 @@ public class Plant : MonoBehaviour
     private GameObject currentModel;
 
     private ScoreManager scoreManager;     // donné par le DronePlanter à la naissance
+    private Inventory inventory;           // donné par le DronePlanter à la naissance
     private bool isFinished = false;       // déjà récoltée ou éclatée ?
 
     // Injection de dépendances : appelée juste après l'Instantiate
-    public void Setup(ScoreManager manager)
+    // Injection de dépendances : appelée juste après l'Instantiate
+    public void Setup(ScoreManager manager, Inventory playerInventory)
     {
         scoreManager = manager;
+        inventory = playerInventory;
     }
 
     private void Start()
     {
+        // Sécurité : les mouches ne doivent apparaître qu'à l'état "trop mûr"
+        if (overripeWarning != null)
+        {
+            overripeWarning.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
         SpawnEffect(plantEffectPrefab);
         ChangeState(PlantState.Seed);
     }
@@ -154,7 +162,7 @@ public class Plant : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"{displayName} : un modèle n'est pas assigné pour l'état {CurrentState}");
+            Debug.LogWarning($"{DisplayName} : un modèle n'est pas assigné pour l'état {CurrentState}");
         }
     }
 
@@ -230,6 +238,17 @@ public class Plant : MonoBehaviour
     {
         if (isFinished || CurrentState != PlantState.Ripe) return;
 
+        // La qualité est tirée au sort au moment de la récolte
+        // (au bloc 3, ce 0 sera remplacé par la difficulté qui augmente avec le temps)
+        CropQuality quality = QualityUtils.Roll(0f);
+
+        // Inventaire plein : on ne récolte PAS. Le légume reste sur place... et risque de pourrir !
+        if (inventory != null && !inventory.TryAdd(cropData, ItemKind.Harvest, quality))
+        {
+            SpawnFloatingText("Inventaire plein !", Color.white);
+            return;
+        }
+
         isFinished = true;
 
         if (scoreManager != null)
@@ -237,9 +256,9 @@ public class Plant : MonoBehaviour
             scoreManager.RegisterHarvest(pointsPerHarvest);
         }
 
-        // Plus tard (brique 4.2) : son + particules de récolte ici
         SpawnEffect(harvestEffectPrefab);
-        SpawnFloatingText($"+{pointsPerHarvest}", gainColor);
+        // Le texte affiche les points ET la qualité, dans la couleur de la qualité
+        SpawnFloatingText($"+{pointsPerHarvest}\n{QualityUtils.GetName(quality)}", QualityUtils.GetColor(quality));
         Destroy(gameObject);
     }
 
