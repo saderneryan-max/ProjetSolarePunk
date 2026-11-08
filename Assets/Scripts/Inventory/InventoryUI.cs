@@ -31,6 +31,7 @@ public class InventoryUI : MonoBehaviour
     {
         inventoryAction.action.Disable();
         inventory.OnChanged -= Refresh;   // on se DÉSABONNE (toujours par paire, comme Enable/Disable)
+        panel.SetActive(false);
     }
 
     private void Start()
