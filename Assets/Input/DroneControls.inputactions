@@ -222,6 +222,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2b6149b7-df11-43fb-9a68-add3e3ffc267",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8716d8f5-2dcf-4026-b789-78aa6b1a2789",
                     "path": "<Mouse>/delta",
                     "interactions": "",
@@ -301,6 +312,17 @@
                     "name": "",
                     "id": "51618199-80d2-406e-aebc-cebfffbf50f0",
                     "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f6d0dcd-ddc6-4a7f-b5b1-f78fb477a8f0",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

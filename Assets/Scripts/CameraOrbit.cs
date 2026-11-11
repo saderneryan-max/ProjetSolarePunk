@@ -54,6 +54,13 @@ public class CameraOrbit : MonoBehaviour
     // le drone a déjà bougé, la caméra le suit donc sans retard ni tremblement.
     private void LateUpdate()
     {
+        // Navigateur : Échap libère la souris. Un clic dans le jeu la recapture.
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame
+            && Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
         if (target == null) return;
 
         ReadLookInput();
