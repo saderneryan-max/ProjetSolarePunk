@@ -69,13 +69,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aa22aeaeb6e4938419e0ff5deaf868c1, type: 2}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: ripeDuration
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: seedDuration
-      value: 9
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: ripeModelPrefab
       value: 
       objectReference: {fileID: 919132149155446097, guid: db405ef67cc8b6e4199ea1e16479fc51, type: 3}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: overripeDuration
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: overripeModelPrefab
       value: 

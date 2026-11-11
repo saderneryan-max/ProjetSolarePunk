@@ -74,23 +74,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: burstPenalty
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: ripeDuration
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: seedDuration
-      value: 15
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: ripeModelPrefab
       value: 
       objectReference: {fileID: 919132149155446097, guid: 939f5f8ed768f474f96e3f9b81179c15, type: 3}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
+      propertyPath: overripeDuration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: pointsPerHarvest
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8515333770667455595, guid: 3a8cef8f5ea99754e85380195a1f22b5, type: 3}
       propertyPath: overripeModelPrefab

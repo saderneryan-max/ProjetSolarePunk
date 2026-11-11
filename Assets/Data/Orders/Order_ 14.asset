@@ -18,4 +18,7 @@ MonoBehaviour:
   lines:
   - Crop: {fileID: 11400000, guid: ed9e74aac44b83147aabaf26087b4a0c, type: 2}
     Quality: 2
-    Count: 15
+    Count: 8
+  - Crop: {fileID: 11400000, guid: ed9e74aac44b83147aabaf26087b4a0c, type: 2}
+    Quality: 1
+    Count: 7

@@ -10,6 +10,7 @@ public class ScoreDisplay : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;       // le nombre de points
     [SerializeField] private TMP_Text harvestText;     // "4 / 15"
     [SerializeField] private Image harvestBarFill;     // barre de progression (Image en mode Filled)
+    [SerializeField] private TMP_Text lostText;        // "3 / 12" légumes perdus
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -44,5 +45,16 @@ public class ScoreDisplay : MonoBehaviour
 
         lastScore = score;
         hasShownOnce = true;
+    }
+
+    // Affiche les légumes perdus, en rouge quand on approche de la limite
+    public void ShowLost(int lost, int max)
+    {
+        if (lostText == null) return;
+
+        lostText.text = $"{lost} / {max}";
+        lostText.color = lost >= max * 0.75f
+            ? new Color(1f, 0.42f, 0.35f)    // rouge : danger !
+            : new Color(1f, 0.96f, 0.88f);   // crème
     }
 }

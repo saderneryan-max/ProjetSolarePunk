@@ -12,6 +12,7 @@ public class DronePlanter : MonoBehaviour
     [Header("Dépendances")]
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private Inventory inventory;
+    [SerializeField] private OrderManager orderManager;
     [SerializeField] private GroundSensor groundSensor;
     [SerializeField] private ZoneDetector zoneDetector;
 
@@ -60,7 +61,7 @@ public class DronePlanter : MonoBehaviour
         }
 
         Plant newPlant = Instantiate(plantPrefab, spawnPosition, Quaternion.identity, plantsParent);
-        newPlant.Setup(scoreManager, inventory); // injection : la plante reçoit tout ce dont elle a besoin
+        newPlant.Setup(scoreManager, inventory, orderManager);
         plantedPlants.Add(newPlant);
     }
 }

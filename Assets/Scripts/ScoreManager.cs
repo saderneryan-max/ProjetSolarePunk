@@ -9,6 +9,11 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private float delayBeforeEndScreen = 1.5f;
     [SerializeField] private string endSceneName = "EndScene";
 
+    [Header("Défaite")]
+    [SerializeField] private int maxLostPlants = 12;   // légumes éclatés autorisés
+
+    public int LostPlants { get; private set; }
+
     [Header("Affichage")]
     [SerializeField] private ScoreDisplay scoreDisplay;
 
@@ -33,8 +38,15 @@ public class ScoreManager : MonoBehaviour
     public void RegisterBurst(int penalty)
     {
         if (isGameOver) return;
+
         Score = Mathf.Max(0, Score - penalty);
+        LostPlants++;
         RefreshDisplay();
+
+        if (LostPlants >= maxLostPlants)
+        {
+            EndGame(false, 0, "Trop de récoltes perdues... Vous êtes un mauvais jardinier !");
+        }
     }
 
     // Appelée par la caisse à chaque dépôt / retrait
@@ -74,6 +86,7 @@ public class ScoreManager : MonoBehaviour
         if (scoreDisplay != null)
         {
             scoreDisplay.ShowScore(Score, deliveredCount, deliveryCapacity);
+            scoreDisplay.ShowLost(LostPlants, maxLostPlants);
         }
     }
 }

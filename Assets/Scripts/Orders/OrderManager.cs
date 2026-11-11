@@ -14,6 +14,12 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private float fastMultiplier = 2f;
     [SerializeField] private float mediumMultiplier = 1.5f;
 
+    [Header("Difficulté")]
+    [SerializeField] private float minutesToMaxDifficulty = 30f;
+
+    // 0 = début de partie, 1 = difficulté maximale (atteinte au bout de 30 min)
+    public float Difficulty => Mathf.Clamp01(ElapsedSeconds / (minutesToMaxDifficulty * 60f));
+
     public OrderData CurrentOrder { get; private set; }
     public List<OrderData> Offers { get; } = new List<OrderData>();
     public float ElapsedSeconds { get; private set; }

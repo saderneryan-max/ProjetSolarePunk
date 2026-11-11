@@ -22,6 +22,7 @@ public class Plant : MonoBehaviour
     [SerializeField] private float seedDuration = 9f;      // temps total de pousse (tous les stades)
     [SerializeField] private float ripeDuration = 6f;
     [SerializeField] private float overripeDuration = 4f;
+    [SerializeField, Range(0.3f, 1f)] private float ripeDurationAtMaxDifficulty = 0.6f; // 60 % de la durée à la fin
 
     [Header("Apparence")]
     [SerializeField] private Transform modelRoot;              // l'enfant ModelRoot : les modèles y apparaissent
@@ -63,14 +64,17 @@ public class Plant : MonoBehaviour
 
     private ScoreManager scoreManager;     // donné par le DronePlanter à la naissance
     private Inventory inventory;           // donné par le DronePlanter à la naissance
+    private OrderManager orderManager;
+    private float CurrentDifficulty => orderManager != null ? orderManager.Difficulty : 0f;
     private bool isFinished = false;       // déjà récoltée ou éclatée ?
 
     // Injection de dépendances : appelée juste après l'Instantiate
     // Injection de dépendances : appelée juste après l'Instantiate
-    public void Setup(ScoreManager manager, Inventory playerInventory)
+    public void Setup(ScoreManager manager, Inventory playerInventory, OrderManager orders)
     {
         scoreManager = manager;
         inventory = playerInventory;
+        orderManager = orders;
     }
 
     private void Start()
@@ -202,7 +206,8 @@ public class Plant : MonoBehaviour
             case PlantState.Seed:
                 return seedDuration;
             case PlantState.Ripe:
-                return ripeDuration;
+                // Plus la partie avance, moins le légume reste mûr longtemps
+                return ripeDuration * Mathf.Lerp(1f, ripeDurationAtMaxDifficulty, CurrentDifficulty);
             default:
                 return overripeDuration;
         }
@@ -240,7 +245,7 @@ public class Plant : MonoBehaviour
 
         // La qualité est tirée au sort au moment de la récolte
         // (au bloc 3, ce 0 sera remplacé par la difficulté qui augmente avec le temps)
-        CropQuality quality = QualityUtils.Roll(0f);
+        CropQuality quality = QualityUtils.Roll(CurrentDifficulty);
 
         // Inventaire plein : on ne récolte PAS. Le légume reste sur place... et risque de pourrir !
         if (inventory != null && !inventory.TryAdd(cropData, ItemKind.Harvest, quality))
