@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b21ab2d64d88852419556e419f0d021d, type: 3}
+  m_Name: Order_ 9
+  m_EditorClassIdentifier: Assembly-CSharp::OrderData
+  orderName: "Velout\xE9 d\u2019automne"
+  difficulty: 1
+  basePoints: 450
+  lines:
+  - Crop: {fileID: 11400000, guid: ed9e74aac44b83147aabaf26087b4a0c, type: 2}
+    Quality: 0
+    Count: 5
+  - Crop: {fileID: 11400000, guid: 074b808413d4291499fe261bc12042f6, type: 2}
+    Quality: 1
+    Count: 5
+  - Crop: {fileID: 11400000, guid: aa22aeaeb6e4938419e0ff5deaf868c1, type: 2}
+    Quality: 2
+    Count: 5

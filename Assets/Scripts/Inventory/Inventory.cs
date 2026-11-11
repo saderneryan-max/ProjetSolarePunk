@@ -20,6 +20,17 @@ public class Inventory : MonoBehaviour
     public IReadOnlyList<InventorySlot> Slots => slots;
     public int MaxSlots => maxSlots;
 
+    // Nombre total d'objets, toutes cases confondues (utile pour la caisse de livraison)
+    public int TotalCount
+    {
+        get
+        {
+            int total = 0;
+            foreach (InventorySlot slot in slots) total += slot.Count;
+            return total;
+        }
+    }
+
     // Événement : "préviens-moi quand l'inventaire change" (l'interface s'y abonne)
     public event Action OnChanged;
 

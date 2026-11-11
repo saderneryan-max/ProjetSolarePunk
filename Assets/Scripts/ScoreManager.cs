@@ -2,72 +2,78 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Garde le score et le nombre de récoltes, et termine la partie quand l'objectif est atteint.
+// Garde le score de récolte, affiche le remplissage de la caisse, et termine la partie.
 public class ScoreManager : MonoBehaviour
 {
-    [Header("Objectif")]
-    [SerializeField] private int harvestGoal = 15;               // nombre de légumes à récolter
-    [SerializeField] private float delayBeforeEndScreen = 1f;    // petite pause avant l'écran de fin
+    [Header("Fin de partie")]
+    [SerializeField] private float delayBeforeEndScreen = 1.5f;
     [SerializeField] private string endSceneName = "EndScene";
 
     [Header("Affichage")]
     [SerializeField] private ScoreDisplay scoreDisplay;
 
     public int Score { get; private set; }
-    public int HarvestCount { get; private set; }
 
-    private bool isGameOver = false; // empêche de compter des points après la fin
+    private int deliveredCount = 0;
+    private int deliveryCapacity = 15;
+    private bool isGameOver = false;
 
     private void Start()
     {
-        Score = 0;
-        HarvestCount = 0;
         RefreshDisplay();
     }
 
-    // Appelée par une plante récoltée
     public void RegisterHarvest(int points)
     {
         if (isGameOver) return;
-
         Score += points;
-        HarvestCount++;
         RefreshDisplay();
-
-        if (HarvestCount >= harvestGoal)
-        {
-            StartCoroutine(EndGameAfterDelay());
-        }
     }
 
-    // Appelée par une plante qui éclate
     public void RegisterBurst(int penalty)
     {
         if (isGameOver) return;
-
-        // Mathf.Max garde la plus grande des deux valeurs : le score ne descend jamais sous 0
         Score = Mathf.Max(0, Score - penalty);
         RefreshDisplay();
     }
 
-    // Coroutine : une fonction qui peut faire une "pause" sans bloquer le jeu
-    private IEnumerator EndGameAfterDelay()
+    // Appelée par la caisse à chaque dépôt / retrait
+    public void SetDeliveryProgress(int count, int capacity)
     {
+        deliveredCount = count;
+        deliveryCapacity = capacity;
+        RefreshDisplay();
+    }
+
+    // Termine la partie : victoire (caisse expédiée) ou défaite (partie 2)
+    public void EndGame(bool victory, int deliveryBonus, string message)
+    {
+        if (isGameOver) return;
         isGameOver = true;
-        GameSession.LastScore = Score; // on range le score dans la boîte partagée
+        StartCoroutine(EndGameAfterDelay(victory, deliveryBonus, message));
+    }
 
-        GameSession.IsNewRecord = BestScoreSaver.TrySave(Score); // sauvegarde + mémorise si c'est un record
+    private IEnumerator EndGameAfterDelay(bool victory, int deliveryBonus, string message)
+    {
+        int finalScore = Mathf.Max(0, Score + deliveryBonus);
 
-        yield return new WaitForSeconds(delayBeforeEndScreen); // on attend 1 s...
+        GameSession.HarvestScore = Score;
+        GameSession.DeliveryBonus = deliveryBonus;
+        GameSession.LastScore = finalScore;
+        GameSession.IsVictory = victory;
+        GameSession.EndMessage = message;
+        // Seule une victoire peut battre le record
+        GameSession.IsNewRecord = victory && BestScoreSaver.TrySave(finalScore);
 
-        SceneManager.LoadScene(endSceneName); // ...puis on passe à l'écran de fin
+        yield return new WaitForSeconds(delayBeforeEndScreen);
+        SceneManager.LoadScene(endSceneName);
     }
 
     private void RefreshDisplay()
     {
         if (scoreDisplay != null)
         {
-            scoreDisplay.ShowScore(Score, HarvestCount, harvestGoal);
+            scoreDisplay.ShowScore(Score, deliveredCount, deliveryCapacity);
         }
     }
 }

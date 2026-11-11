@@ -1,7 +1,10 @@
-// Petite "boîte" partagée entre les scènes.
-// Une variable static survit au changement de scène, mais PAS à la fermeture du jeu.
+// "Boîte" partagée entre les scènes : résultat de la dernière partie.
 public static class GameSession
 {
-    public static int LastScore = 0; // score de la dernière partie terminée
-    public static bool IsNewRecord = false; // NOUVEAU : la dernière partie a-t-elle battu le record ?
+    public static int LastScore = 0;
+    public static int HarvestScore = 0;
+    public static int DeliveryBonus = 0;
+    public static bool IsNewRecord = false;
+    public static bool IsVictory = true;
+    public static string EndMessage = "";
 }

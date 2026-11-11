@@ -668,8 +668,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Acheter
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d2223d2aadb17b0428a23929c848ea74, type: 2}
-  m_sharedMaterial: {fileID: 2088812482201672227, guid: d2223d2aadb17b0428a23929c848ea74, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9acfe8b889558ac499f03a321ca4c637, type: 2}
+  m_sharedMaterial: {fileID: 8242526032891629476, guid: 9acfe8b889558ac499f03a321ca4c637, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -693,8 +693,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

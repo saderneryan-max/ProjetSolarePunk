@@ -1,19 +1,29 @@
 using TMPro;
 using UnityEngine;
 
-// Affiche le score de la partie, le meilleur score, et un message en cas de nouveau record.
+// Écran de fin : victoire ou défaite, détail du score, meilleur score, message.
 public class EndScreen : MonoBehaviour
 {
+    [SerializeField] private TMP_Text titleText;        // "Récolte" / "Partie"
+    [SerializeField] private TMP_Text subtitleText;     // "terminée !" / "perdue..."
     [SerializeField] private TMP_Text finalScoreText;
+    [SerializeField] private TMP_Text detailText;       // "Récoltes : 40  +  Livraison : 320"
     [SerializeField] private TMP_Text bestScoreText;
-    [SerializeField] private GameObject newRecordLabel; // texte "Nouveau record !"
+    [SerializeField] private TMP_Text messageText;
+    [SerializeField] private GameObject newRecordLabel;
 
     private void Start()
     {
-        finalScoreText.text = $"Score final : {GameSession.LastScore}";
-        bestScoreText.text = $"Meilleur score : {BestScoreSaver.Load()}";
+        bool victory = GameSession.IsVictory;
 
-        // On n'affiche "Nouveau record !" que si c'en est un
+        titleText.text = victory ? "Livraison" : "Partie";
+        subtitleText.text = victory ? "réussie !" : "perdue...";
+
+        finalScoreText.text = $"Score final : {GameSession.LastScore}";
+        detailText.text = $"Récoltes : {GameSession.HarvestScore}   +   Livraison : {GameSession.DeliveryBonus}";
+        bestScoreText.text = $"Meilleur score : {BestScoreSaver.Load()}";
+        messageText.text = GameSession.EndMessage;
+
         newRecordLabel.SetActive(GameSession.IsNewRecord);
     }
 }

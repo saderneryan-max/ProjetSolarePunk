@@ -40,6 +40,17 @@ public static class QualityUtils
         }
     }
 
+    // Version foncée de la couleur, lisible sur un fond clair (parchemin)
+    public static Color GetDarkColor(CropQuality quality)
+    {
+        switch (quality)
+        {
+            case CropQuality.Or: return new Color(0.72f, 0.53f, 0.04f);
+            case CropQuality.Argent: return new Color(0.40f, 0.46f, 0.54f);
+            default: return new Color(0.63f, 0.32f, 0.18f);
+        }
+    }
+
     public static string GetName(CropQuality quality)
     {
         switch (quality)
