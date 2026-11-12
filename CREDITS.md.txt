@@ -1,0 +1,42 @@
+# Crédits – Le Potager Solarpunk
+
+Jeu réalisé par Ryan Saderne – IUT Informatique, 2026.
+Moteur : Unity 6.3 (URP, Input System, TextMeshPro).
+
+## Modèles 3D
+- Ultimate Crops Pack – Quaternius – CC0 – https://quaternius.com
+- Stylized Nature MegaKit – Quaternius – CC0 – https://quaternius.itch.io/stylized-nature-megakit
+- Forest Nature Pack – KayKit (Kay Lousberg) – CC0 – https://kaylousberg.itch.io   [À VÉRIFIER : supprimer si non utilisé]
+- Drone, base solarpunk sur pilotis et tournesols (5 stades) : modèles originaux créés pour le projet,
+  générés par script Blender avec l'assistance de Claude (IA d'Anthropic).
+
+## Textures
+- Stylized Texture Pack – Lynocs – CC0 – https://lynocs.itch.io/texture-pack
+
+## Interface
+- UI Pack – Kenney – CC0 – https://kenney.nl/assets/ui-pack
+- UI Pack (Adventure) – Kenney – CC0 – https://kenney.nl/assets/ui-pack-adventure
+- Input Prompts – Kenney – CC0 – https://kenney.nl/assets/input-prompts
+- Police Fredoka – Milena Brandão – SIL Open Font License – https://fonts.google.com/specimen/Fredoka
+- Icônes – game-icons.net – CC BY 3.0 – https://game-icons.net
+  - carrot – Delapouite
+  - pumpkin – Delapouite
+  - sunflower – Delapouite
+  - trophy – Lorc
+  - basket – Delapouite
+  - coins – Delapouite
+  - water-drop – Lit
+
+## Effets visuels
+- Particle Pack – Kenney – CC0 – https://kenney.nl/assets/particle-pack
+
+## Sons
+- Impact Sounds – Kenney – CC0 – https://kenney.nl/assets/impact-sounds
+- Interface Sounds – Kenney – CC0 – https://kenney.nl/assets/interface-sounds
+- Circulate, Fan Sound, Spray – freesound_community via Pixabay – Pixabay Content License – https://pixabay.com/sound-effects/
+
+## Musiques – Komiku – CC0 – https://loyaltyfreakmusic.com/
+- A Tale is never forgotten – 01. The main reason we are here…
+- A Tale is never forgotten – 14. The main reason we cry so m…
+- The adventure goes on, vol. 2 – 01. Morning's chill
+- The adventure goes on, vol. 2 – 08. I miss you but I need t…
