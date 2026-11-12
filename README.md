@@ -64,6 +64,6 @@ durées de pousse → `Prefabs/Plant_Carrot` (et variants) › *Plant* › **See
 
 ## 🙏 Crédits
 
-Voir [CREDITS.md.txt](CREDITS.md).
+Voir [CREDITS.md.txt](CREDITS.md.txt).
 
 Les modèles du drone, de la base et des tournesols, ainsi que les visuels de la page itch.io, ont été générés par script Blender avec l'assistance de Claude (IA d'Anthropic). Le code a été écrit avec l'accompagnement pédagogique de la même IA.
