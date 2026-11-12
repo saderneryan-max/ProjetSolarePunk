@@ -28,10 +28,14 @@ public class InfoPanelUI : MonoBehaviour
 
     public void Hide(InfoBoardZone zone)
     {
-        // Si une AUTRE zone a pris le relais entre-temps, on ne cache pas son panneau
         if (zone != currentZone) return;
 
         currentZone = null;
-        panel.SetActive(false);
+
+        // Sécurité : même problème à la fermeture de la scène
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
     }
 }

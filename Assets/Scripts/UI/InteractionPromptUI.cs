@@ -26,7 +26,12 @@ public class InteractionPromptUI : MonoBehaviour
     public void Hide()
     {
         target = null;
-        promptRoot.gameObject.SetActive(false);
+
+        // Sécurité : à la fermeture de la scène, l'invite peut déjà avoir été détruite
+        if (promptRoot != null)
+        {
+            promptRoot.gameObject.SetActive(false);
+        }
     }
 
     private void LateUpdate()

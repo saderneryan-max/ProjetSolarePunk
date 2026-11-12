@@ -18,7 +18,12 @@ public class DroneInteractor : MonoBehaviour
     private void OnDisable()
     {
         interactAction.action.Disable();
-        prompt.Hide(); // un menu s'ouvre : on cache l'invite
+
+        // Sécurité : à la fermeture de la scène, le HUD peut avoir été détruit avant le drone
+        if (prompt != null)
+        {
+            prompt.Hide();
+        }
     }
 
     private void Update()
