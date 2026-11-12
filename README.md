@@ -2,7 +2,7 @@
 
 Aux commandes d'un drone horticole alimenté au soleil, fais pousser un potager vivant, gère ton économie et livre la commande parfaite… le plus vite possible !
 
-🎮 **Jouer dans le navigateur / télécharger pour Windows : [LIEN ITCH.IO]**
+🎮 **Jouer dans le navigateur / télécharger pour Windows : https://rays4300.itch.io/le-potager-solarpunk**
 
 Projet de synthèse – IUT Informatique, 2026 – réalisé par **Ryan Saderne** avec **Unity 6.3** (URP).
 
@@ -64,6 +64,6 @@ durées de pousse → `Prefabs/Plant_Carrot` (et variants) › *Plant* › **See
 
 ## 🙏 Crédits
 
-Voir [CREDITS.md](CREDITS.md).
+Voir [CREDITS.md.txt](CREDITS.md).
 
 Les modèles du drone, de la base et des tournesols, ainsi que les visuels de la page itch.io, ont été générés par script Blender avec l'assistance de Claude (IA d'Anthropic). Le code a été écrit avec l'accompagnement pédagogique de la même IA.
